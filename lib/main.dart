@@ -23,7 +23,7 @@ void main() async {
   Hive.registerAdapter(TaskEntityAdapter());
   Hive.registerAdapter(PeriorityAdapter());
   await Hive.openBox<TaskEntity>(taskBoxName);
-  runApp(Provider<Repository<TaskEntity>>(
+  runApp(ChangeNotifierProvider<Repository<TaskEntity>>(
       create: (context) =>
           Repository<TaskEntity>(HiveTaskDataSource(Hive.box(taskBoxName))),
       child: const MyApp()));

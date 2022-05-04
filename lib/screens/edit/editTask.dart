@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:todo4/data/data.dart';
+import 'package:todo4/data/repo/repository.dart';
 
 import 'package:todo4/main.dart';
 
@@ -34,11 +36,9 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
             final box = Hive.box<TaskEntity>(taskBoxName);
 
             widget.taskEntity.name = textEditingController.text;
-            if (widget.taskEntity.isInBox) {
-              widget.taskEntity.save();
-            } else {
-              box.add(widget.taskEntity);
-            }
+            final repository =
+                Provider.of<Repository<TaskEntity>>(context, listen: false);
+            repository.creatOrUpdate(widget.taskEntity);
             Navigator.of(context).pop();
           },
           label: Text('Save Changes')),
